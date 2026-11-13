@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 
+// Model data untuk tombol menu dengan tambahan atribut color
+class ItemHomepage {
+  final String name;
+  final IconData icon;
+  final Color color;
+
+  ItemHomepage(this.name, this.icon, this.color);
+}
+
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
   final String npm = "2506625224";
-  final String nama = "Baby";    
-  final String kelas = "PBP C";    
+  final String nama = "Baby Akiko Gracia";
+  final String kelas = "PBP C";
 
-  // Daftar tombol menu portofolio
+  // Daftar tombol menu portofolio dengan warna unik dan kontras
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Proyek", Icons.folder),
-    ItemHomepage("Tambah Proyek", Icons.add_circle),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage("Lihat Proyek", Icons.folder, Colors.blue),
+    ItemHomepage("Tambah Proyek", Icons.add_circle, Colors.green),
+    ItemHomepage("Logout", Icons.logout, Colors.red),
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -26,7 +34,7 @@ class MyHomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color(0xFF111111), 
+        backgroundColor: const Color(0xFF111111),
       ),
       backgroundColor: const Color(0xFFF8F9FA),
       body: Padding(
@@ -45,34 +53,35 @@ class MyHomePage extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             // Bagian tengah: pesan sambutan dan kisi tombol menu portofolio.
-            Center(
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      'Selamat datang di MyPortfolio Mobile!',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                        color: Color(0xFF111111), // Menyesuaikan --ink
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: Text(
+                        'Selamat datang di MyPortfolio Mobile!',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Color(0xFF111111),
+                        ),
                       ),
                     ),
-                  ),
-                  // GridView menampilkan kartu tombol dalam tata letak kisi 3 kolom.
-                  GridView.count(
-                    primary: true,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    // shrinkWrap agar ukuran kisi menyesuaikan tinggi konten anak.
-                    shrinkWrap: true,
-                    children: items.map((ItemHomepage item) {
-                      return ItemCard(item);
-                    }).toList(),
-                  ),
-                ],
+                    // GridView menampilkan kartu tombol dalam tata letak kisi 3 kolom.
+                    GridView.count(
+                      primary: false,
+                      padding: const EdgeInsets.all(20),
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 3,
+                      shrinkWrap: true,
+                      children: items.map((ItemHomepage item) {
+                        return ItemCard(item);
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -93,7 +102,7 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      color: Colors.white, 
+      color: Colors.white,
       child: Container(
         width: MediaQuery.of(context).size.width / 3.5,
         padding: const EdgeInsets.all(16.0),
@@ -103,12 +112,13 @@ class InfoCard extends StatelessWidget {
               title,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF6E6E73), 
+                color: Color(0xFF6E6E73),
               ),
             ),
             const SizedBox(height: 8.0),
             Text(
               content,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF111111),
                 fontWeight: FontWeight.w500,
@@ -121,14 +131,6 @@ class InfoCard extends StatelessWidget {
   }
 }
 
-// Model data untuk tombol menu
-class ItemHomepage {
-  final String name;
-  final IconData icon;
-
-  ItemHomepage(this.name, this.icon);
-}
-
 // Widget kartu tombol interaktif
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
@@ -138,7 +140,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF007AFF),
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
