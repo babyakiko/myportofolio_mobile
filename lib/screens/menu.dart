@@ -22,10 +22,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'MyPortfolio',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF111111),
         iconTheme: const IconThemeData(color: Colors.white),
@@ -61,17 +58,27 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    GridView.count(
-                      primary: false,
-                      padding: const EdgeInsets.all(20),
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      children: items.map((ItemHomepage item) {
-                        return ItemCard(item);
-                      }).toList(),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final crossAxisCount = constraints.maxWidth < 600
+                            ? 2
+                            : 4;
+
+                        return GridView.count(
+                          primary: false,
+                          padding: const EdgeInsets.all(20),
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          crossAxisCount: crossAxisCount,
+                          childAspectRatio: 1.0,
+                          shrinkWrap: true,
+                          children: items.map((ItemHomepage item) {
+                            return ItemCard(item);
+                          }).toList(),
+                        );
+                      },
                     ),
+                    // === SAMPAI SINI ===
                   ],
                 ),
               ),
