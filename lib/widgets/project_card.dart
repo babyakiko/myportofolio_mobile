@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/experience_list_screen.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/screens/project_list_screen.dart';
 import 'package:myportofolio_mobile/services/auth_state.dart';
@@ -40,6 +41,10 @@ class ItemCard extends StatelessWidget {
         if (!await ensureLoggedIn(context)) return;
         navigator.push(
           MaterialPageRoute(builder: (context) => const ProjectFormPage()),
+        );
+      case 'Lihat Pengalaman':
+        navigator.push(
+          MaterialPageRoute(builder: (context) => const ExperienceListScreen()),
         );
       case 'Tambah Pengalaman':
         navigator.push(
