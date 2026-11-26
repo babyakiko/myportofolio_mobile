@@ -67,4 +67,3 @@ class Experience {
 
   Map<String, dynamic> toJson() => _$ExperienceToJson(this);
 }
-
