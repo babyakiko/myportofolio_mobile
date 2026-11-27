@@ -47,6 +47,7 @@ class ItemCard extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const ExperienceListScreen()),
         );
       case 'Tambah Pengalaman':
+        if (!await ensureLoggedIn(context)) return;
         navigator.push(
           MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
         );

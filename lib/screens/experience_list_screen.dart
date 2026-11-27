@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/experience.dart';
 import 'package:myportofolio_mobile/screens/experience_detail_screen.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/services/api_client.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +31,29 @@ class _ExperienceListScreenState extends State<ExperienceListScreen> {
     await future;
   }
 
+  Future<void> _openCreateForm() async {
+    final navigator = Navigator.of(context);
+    if (!await ensureLoggedIn(context)) return;
+    final created = await navigator.push<bool>(
+      MaterialPageRoute(
+        builder: (context) => const ExperienceFormPage(popOnSuccess: true),
+      ),
+    );
+    if (created == true && mounted) {
+      await _reload();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Achievements: Experiences')),
       drawer: const LeftDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _openCreateForm,
+        tooltip: 'Add Experience',
+        child: const Icon(Icons.add),
+      ),
       body: FutureBuilder<List<Experience>>(
         future: _experiencesFuture,
         builder: (context, snapshot) {
